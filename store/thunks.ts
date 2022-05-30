@@ -1,3 +1,4 @@
+import { metamaskSubmittedNotification } from "@components/notification";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { Jcr } from "abi/types/JCR";
 
@@ -14,6 +15,7 @@ export const thunkBurn = createAsyncThunk(
 ) => {
     if (!jcr) return rejectWithValue('Missing JCR Contract');
     const tx = await jcr.burn(burnAmount);
+    metamaskSubmittedNotification();
     const receipt = await tx.wait();
     return receipt.status === 1
         ? { burnAmount }

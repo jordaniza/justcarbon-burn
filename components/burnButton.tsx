@@ -20,9 +20,9 @@ const BurnButton: React.FC<{ max: BigNumber }> = ({ max }) => {
         dispatch(
             thunkBurn({ burnAmount: amount.toString(), jcr: JCRContract })
         )
-        .then(() => {
+        .then(res => {
+            if (res.meta.requestStatus === 'rejected') return
             setBurnAmount(BigNumber.from(0))
-            metamaskSubmittedNotification();
         })
         .finally(() => setBurning(false))
     };
